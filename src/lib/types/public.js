@@ -184,6 +184,9 @@
  * @property {string} [region] AWS region (e.g., 'us-east-1'). Required for Amazon S3 and
  * DigitalOcean Spaces.
  * @property {string} [account_id] Cloudflare account ID. Required for Cloudflare R2.
+ * @property {'default' | 'eu' | 'fedramp'} [jurisdiction] Cloudflare R2 jurisdiction. Required for
+ * buckets created in the EU or FedRAMP jurisdictions; the global endpoint returns an error for
+ * those buckets. Default: `'default'`.
  * @property {string} [endpoint] Custom endpoint URL for S3-compatible services.
  * @property {string} [prefix] Path prefix within bucket.
  * @property {boolean} [force_path_style] Use path-style URLs instead of virtual-hosted-style.

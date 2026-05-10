@@ -209,6 +209,106 @@ describe('integrations/media-libraries/cloud/s3/cloudflare-r2', () => {
       );
     });
 
+    it('list should use EU jurisdiction endpoint when jurisdiction is "eu"', async () => {
+      const core = await import('./core');
+
+      vi.mocked(get).mockReturnValue({
+        media_libraries: {
+          cloudflare_r2: {
+            access_key_id: mockAccessKeyId,
+            bucket: mockBucket,
+            account_id: mockAccountId,
+            jurisdiction: 'eu',
+          },
+        },
+      });
+
+      await list(mockOptions);
+
+      expect(core.listS3Objects).toHaveBeenCalledWith(
+        expect.objectContaining({
+          endpoint: `https://${mockAccountId}.eu.r2.cloudflarestorage.com`,
+          region: 'auto',
+        }),
+        mockOptions,
+      );
+    });
+
+    it('list should use FedRAMP jurisdiction endpoint when jurisdiction is "fedramp"', async () => {
+      const core = await import('./core');
+
+      vi.mocked(get).mockReturnValue({
+        media_libraries: {
+          cloudflare_r2: {
+            access_key_id: mockAccessKeyId,
+            bucket: mockBucket,
+            account_id: mockAccountId,
+            jurisdiction: 'fedramp',
+          },
+        },
+      });
+
+      await list(mockOptions);
+
+      expect(core.listS3Objects).toHaveBeenCalledWith(
+        expect.objectContaining({
+          endpoint: `https://${mockAccountId}.fedramp.r2.cloudflarestorage.com`,
+          region: 'auto',
+        }),
+        mockOptions,
+      );
+    });
+
+    it('list should use global endpoint when jurisdiction is "default"', async () => {
+      const core = await import('./core');
+
+      vi.mocked(get).mockReturnValue({
+        media_libraries: {
+          cloudflare_r2: {
+            access_key_id: mockAccessKeyId,
+            bucket: mockBucket,
+            account_id: mockAccountId,
+            jurisdiction: 'default',
+          },
+        },
+      });
+
+      await list(mockOptions);
+
+      expect(core.listS3Objects).toHaveBeenCalledWith(
+        expect.objectContaining({
+          endpoint: `https://${mockAccountId}.r2.cloudflarestorage.com`,
+          region: 'auto',
+        }),
+        mockOptions,
+      );
+    });
+
+    it('list should fall back to global endpoint for an unknown jurisdiction value', async () => {
+      const core = await import('./core');
+
+      vi.mocked(get).mockReturnValue({
+        media_libraries: {
+          cloudflare_r2: {
+            access_key_id: mockAccessKeyId,
+            bucket: mockBucket,
+            account_id: mockAccountId,
+            jurisdiction: /** @type {any} */ ('unknown'),
+          },
+        },
+      });
+
+      await list(mockOptions);
+
+      expect(core.listS3Objects).toHaveBeenCalledWith(
+        expect.objectContaining({
+          endpoint: `https://${mockAccountId}.r2.cloudflarestorage.com`,
+          region: 'auto',
+        }),
+        mockOptions,
+      );
+    });
+
     it('list should pass public_url through when set in config', async () => {
       const core = await import('./core');
 
@@ -246,6 +346,32 @@ describe('integrations/media-libraries/cloud/s3/cloudflare-r2', () => {
       );
     });
 
+    it('search should use EU jurisdiction endpoint when jurisdiction is "eu"', async () => {
+      const core = await import('./core');
+
+      vi.mocked(get).mockReturnValue({
+        media_libraries: {
+          cloudflare_r2: {
+            access_key_id: mockAccessKeyId,
+            bucket: mockBucket,
+            account_id: mockAccountId,
+            jurisdiction: 'eu',
+          },
+        },
+      });
+
+      await search('photo', mockOptions);
+
+      expect(core.searchS3Objects).toHaveBeenCalledWith(
+        'photo',
+        expect.objectContaining({
+          endpoint: `https://${mockAccountId}.eu.r2.cloudflarestorage.com`,
+          region: 'auto',
+        }),
+        mockOptions,
+      );
+    });
+
     it('upload should pass R2 endpoint and auto region to uploadToS3', async () => {
       const core = await import('./core');
 
@@ -255,6 +381,32 @@ describe('integrations/media-libraries/cloud/s3/cloudflare-r2', () => {
         [],
         expect.objectContaining({
           endpoint: `https://${mockAccountId}.r2.cloudflarestorage.com`,
+          region: 'auto',
+        }),
+        mockOptions,
+      );
+    });
+
+    it('upload should use EU jurisdiction endpoint when jurisdiction is "eu"', async () => {
+      const core = await import('./core');
+
+      vi.mocked(get).mockReturnValue({
+        media_libraries: {
+          cloudflare_r2: {
+            access_key_id: mockAccessKeyId,
+            bucket: mockBucket,
+            account_id: mockAccountId,
+            jurisdiction: 'eu',
+          },
+        },
+      });
+
+      await upload([], mockOptions);
+
+      expect(core.uploadToS3).toHaveBeenCalledWith(
+        [],
+        expect.objectContaining({
+          endpoint: `https://${mockAccountId}.eu.r2.cloudflarestorage.com`,
           region: 'auto',
         }),
         mockOptions,

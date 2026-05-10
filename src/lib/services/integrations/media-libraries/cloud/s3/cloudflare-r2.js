@@ -14,6 +14,29 @@ import { listS3Objects, searchS3Objects, uploadToS3 } from './core';
  */
 
 /**
+ * Map of Cloudflare R2 jurisdiction identifiers to their endpoint infixes.
+ * @type {Record<string, string>}
+ * @see https://github.com/sveltia/sveltia-cms/issues/752
+ * @see https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions
+ */
+const JURISDICTION_INFIXES = {
+  default: '',
+  eu: 'eu.',
+  fedramp: 'fedramp.',
+};
+
+/**
+ * Build the Cloudflare R2 S3 API endpoint for the given account and jurisdiction.
+ * @param {S3MediaLibrary} libOptions Library options.
+ * @returns {string} Endpoint URL.
+ */
+const getEndpoint = ({ account_id: accountId, jurisdiction = 'default' }) => {
+  const infix = JURISDICTION_INFIXES[jurisdiction] ?? '';
+
+  return `https://${accountId}.${infix}r2.cloudflarestorage.com`;
+};
+
+/**
  * Get Cloudflare R2 library options from site config.
  * @internal
  * @param {CmsConfig | MediaField} [config] CMS configuration or field configuration.
@@ -54,7 +77,7 @@ export const list = async (options) => {
   const config = {
     ...libOptions,
     region: 'auto',
-    endpoint: `https://${libOptions.account_id}.r2.cloudflarestorage.com`,
+    endpoint: getEndpoint(libOptions),
   };
 
   return listS3Objects(config, options);
@@ -78,7 +101,7 @@ export const search = async (query, options) => {
   const config = {
     ...libOptions,
     region: 'auto',
-    endpoint: `https://${libOptions.account_id}.r2.cloudflarestorage.com`,
+    endpoint: getEndpoint(libOptions),
   };
 
   return searchS3Objects(query, config, options);
@@ -102,7 +125,7 @@ export const upload = async (files, options) => {
   const config = {
     ...libOptions,
     region: 'auto',
-    endpoint: `https://${libOptions.account_id}.r2.cloudflarestorage.com`,
+    endpoint: getEndpoint(libOptions),
   };
 
   return uploadToS3(files, config, options);
