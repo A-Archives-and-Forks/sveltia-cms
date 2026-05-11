@@ -66,6 +66,7 @@
     {/if}
     <div role="none" class="field-wrapper">
       <TextInput
+        dir="auto"
         bind:value={inputValue}
         flex
         {readonly}

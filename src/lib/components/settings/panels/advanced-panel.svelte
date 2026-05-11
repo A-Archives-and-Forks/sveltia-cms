@@ -59,6 +59,7 @@
     </p>
     <div role="none">
       <TextInput
+        dir="ltr"
         bind:value={$prefs.deployHookURL}
         flex
         aria-label={_('prefs.advanced.deploy_hook.url.field_label')}
@@ -76,6 +77,7 @@
     </div>
     <div role="none">
       <TextInput
+        dir="ltr"
         bind:value={$prefs.deployHookAuthHeader}
         flex
         aria-label={_('prefs.advanced.deploy_hook.auth.field_label')}

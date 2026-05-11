@@ -2,6 +2,7 @@ import { describe, expect, test, vi } from 'vitest';
 
 import {
   getCanonicalLocale,
+  getDirection,
   getListFormatter,
   getLocaleLabel,
   getLocalePath,
@@ -12,7 +13,32 @@ import { DEFAULT_I18N_CONFIG } from '$lib/services/contents/i18n/config';
 // `appLocale.current ?? 'en'` fallback branch in getLocaleLabel's default parameter.
 const mockLocale = vi.hoisted(() => ({ current: /** @type {string | null} */ (''), set: vi.fn() }));
 
-vi.mock('@sveltia/i18n', () => ({ locale: mockLocale }));
+vi.mock('@sveltia/i18n', () => ({
+  locale: mockLocale,
+  isRTL: (/** @type {string} */ locale) =>
+    ['ar', 'he', 'fa', 'ur', 'dv', 'ha', 'ps', 'yi'].includes(locale),
+}));
+
+describe('Test getDirection()', () => {
+  test('returns "auto" for _default locale', () => {
+    expect(getDirection('_default')).toBe('auto');
+  });
+
+  test('returns "rtl" for RTL locales', () => {
+    expect(getDirection('ar')).toBe('rtl');
+    expect(getDirection('he')).toBe('rtl');
+    expect(getDirection('fa')).toBe('rtl');
+    expect(getDirection('ur')).toBe('rtl');
+  });
+
+  test('returns "ltr" for LTR locales', () => {
+    expect(getDirection('en')).toBe('ltr');
+    expect(getDirection('fr')).toBe('ltr');
+    expect(getDirection('de')).toBe('ltr');
+    expect(getDirection('ja')).toBe('ltr');
+    expect(getDirection('zh')).toBe('ltr');
+  });
+});
 
 describe('Test getCanonicalLocale()', () => {
   test('valid locale code', () => {

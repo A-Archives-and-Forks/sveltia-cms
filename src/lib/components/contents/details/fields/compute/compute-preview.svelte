@@ -3,7 +3,7 @@
   Implement the preview for a Compute field.
 -->
 <script>
-  import { getCanonicalLocale } from '$lib/services/contents/i18n';
+  import { getCanonicalLocale, getDirection } from '$lib/services/contents/i18n';
 
   /**
    * @import { FieldPreviewProps } from '$lib/types/private';
@@ -25,4 +25,4 @@
   } = $props();
 </script>
 
-<p lang={getCanonicalLocale(locale)} dir="auto">{currentValue}</p>
+<p lang={getCanonicalLocale(locale)} dir={getDirection(locale)}>{currentValue}</p>

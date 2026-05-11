@@ -7,7 +7,7 @@
 <script>
   import { isObjectArray } from '@sveltia/utils/array';
 
-  import { getCanonicalLocale, getListFormatter } from '$lib/services/contents/i18n';
+  import { getCanonicalLocale, getDirection, getListFormatter } from '$lib/services/contents/i18n';
 
   /**
    * @import { FieldPreviewProps } from '$lib/types/private';
@@ -46,9 +46,9 @@
 </script>
 
 {#if multiple && Array.isArray(currentValue) && currentValue.length}
-  <p lang={getCanonicalLocale(locale)} dir="auto">
+  <p lang={getCanonicalLocale(locale)} dir={getDirection(locale)}>
     {listFormatter.format(currentValue.map(getLabel).sort())}
   </p>
 {:else if currentValue !== undefined}
-  <p lang={getCanonicalLocale(locale)} dir="auto">{getLabel(currentValue)}</p>
+  <p lang={getCanonicalLocale(locale)} dir={getDirection(locale)}>{getLabel(currentValue)}</p>
 {/if}

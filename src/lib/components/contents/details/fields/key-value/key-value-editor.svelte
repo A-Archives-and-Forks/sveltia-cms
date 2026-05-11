@@ -17,6 +17,7 @@
     savePairs,
     validatePairs,
   } from '$lib/services/contents/fields/key-value/helper';
+  import { getDirection } from '$lib/services/contents/i18n';
 
   /**
    * @import { Writable } from 'svelte/store';
@@ -183,6 +184,7 @@
         <tr bind:this={rowElements[index]}>
           <td class="key">
             <TextInput
+              dir="ltr"
               {readonly}
               flex
               bind:value={pair[0]}
@@ -204,6 +206,7 @@
           </td>
           <td class="value">
             <TextInput
+              dir={getDirection(locale)}
               {readonly}
               flex
               bind:value={pair[1]}

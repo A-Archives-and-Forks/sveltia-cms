@@ -1,4 +1,4 @@
-import { locale as appLocale } from '@sveltia/i18n';
+import { locale as appLocale, isRTL } from '@sveltia/i18n';
 
 /**
  * @import { InternalI18nOptions, InternalLocaleCode, } from '$lib/types/private';
@@ -24,6 +24,15 @@ export const getCanonicalLocale = (locale) => {
 
   return canonicalLocale;
 };
+
+/**
+ * Get the text direction for the given locale.
+ * @param {InternalLocaleCode} locale Locale.
+ * @returns {'ltr' | 'rtl' | 'auto'} Text direction. Returns `auto` if i18n is disabled (i.e.
+ * `locale` is `_default`), `rtl` if the locale is a right-to-left language, and `ltr` otherwise.
+ */
+export const getDirection = (locale) =>
+  locale === '_default' ? 'auto' : isRTL(locale) ? 'rtl' : 'ltr';
 
 /**
  * Cache of {@link Intl.DisplayNames} instances, keyed by `displayLocale`.

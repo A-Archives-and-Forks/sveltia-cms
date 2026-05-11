@@ -110,6 +110,7 @@
 </script>
 
 <TextInput
+  dir="auto"
   value={String(currentValue)}
   flex
   {readonly}

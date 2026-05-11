@@ -5,7 +5,7 @@
   @see https://sveltiacms.app/en/docs/fields/list
 -->
 <script>
-  import { getCanonicalLocale } from '$lib/services/contents/i18n';
+  import { getCanonicalLocale, getDirection } from '$lib/services/contents/i18n';
 
   /**
    * @import { FieldPreviewProps } from '$lib/types/private';
@@ -28,7 +28,7 @@
 </script>
 
 {#if Array.isArray(currentValue) && currentValue.length}
-  <ul lang={getCanonicalLocale(locale)} dir="auto">
+  <ul lang={getCanonicalLocale(locale)} dir={getDirection(locale)}>
     {#each currentValue as item, index (`${item}-${index}`)}
       <li>{item}</li>
     {/each}

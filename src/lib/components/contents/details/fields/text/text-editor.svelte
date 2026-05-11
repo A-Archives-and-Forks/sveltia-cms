@@ -9,7 +9,7 @@
   import { getContext, untrack } from 'svelte';
 
   import CharacterCounter from '$lib/components/contents/details/fields/string/character-counter.svelte';
-  import { getCanonicalLocale } from '$lib/services/contents/i18n';
+  import { getCanonicalLocale, getDirection } from '$lib/services/contents/i18n';
 
   /**
    * @import { FieldEditorContext, FieldEditorProps } from '$lib/types/private';
@@ -86,6 +86,7 @@
 
 <TextArea
   lang={getCanonicalLocale(locale)}
+  dir={getDirection(locale)}
   bind:value={inputValue}
   flex
   {readonly}

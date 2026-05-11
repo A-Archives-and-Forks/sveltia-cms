@@ -31,7 +31,7 @@
     customComponentRegistry,
     getComponentDef,
   } from '$lib/services/contents/fields/rich-text/components/definitions';
-  import { getCanonicalLocale } from '$lib/services/contents/i18n';
+  import { getCanonicalLocale, getDirection } from '$lib/services/contents/i18n';
   import { getDefaultMediaLibraryOptions } from '$lib/services/integrations/media-libraries/default';
   import {
     RASTER_IMAGE_EXTENSION_REGEX,
@@ -389,6 +389,7 @@
     {#key JSON.stringify(fieldConfig)}
       <TextEditor
         lang={getCanonicalLocale(locale)}
+        dir={getDirection(locale)}
         {modes}
         {buttons}
         {components}

@@ -100,7 +100,13 @@
     {_('enter_new_name_for_asset', { values: { count: usedEntries.length } })}
   </p>
   <div role="none">
-    <TextInput bind:value={newName} flex {invalid} aria-errormessage="{componentId}-error" />
+    <TextInput
+      dir="auto"
+      bind:value={newName}
+      flex
+      {invalid}
+      aria-errormessage="{componentId}-error"
+    />
     {#if extension}
       <span role="none">.{extension}</span>
     {/if}

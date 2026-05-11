@@ -393,6 +393,7 @@
   <div role="none">{_('assets_dialog.photo_credit.description')}</div>
   <div role="none">
     <TextArea
+      dir="auto"
       flex
       readonly
       value={photoCredit}

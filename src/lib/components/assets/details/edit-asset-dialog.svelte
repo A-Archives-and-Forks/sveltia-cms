@@ -86,7 +86,7 @@
   }}
 >
   <div role="none" class="wrapper" class:wrap>
-    <TextArea bind:value={currentValue} flex />
+    <TextArea dir="auto" bind:value={currentValue} flex />
   </div>
   {#snippet footerExtra()}
     <Switch label={_('wrap_long_lines')} bind:checked={wrap} />

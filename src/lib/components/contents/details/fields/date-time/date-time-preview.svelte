@@ -6,7 +6,7 @@
 -->
 <script>
   import { getDateTimeFieldDisplayValue } from '$lib/services/contents/fields/date-time/helper';
-  import { getCanonicalLocale } from '$lib/services/contents/i18n';
+  import { getCanonicalLocale, getDirection } from '$lib/services/contents/i18n';
 
   /**
    * @import { FieldPreviewProps } from '$lib/types/private';
@@ -34,7 +34,7 @@
 </script>
 
 {#if displayValue}
-  <p lang={getCanonicalLocale(locale)} dir="auto">
+  <p lang={getCanonicalLocale(locale)} dir={getDirection(locale)}>
     {displayValue}
     {#if fieldConfig.picker_utc}
       UTC

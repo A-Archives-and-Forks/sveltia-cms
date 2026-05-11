@@ -367,6 +367,7 @@
       />
     {/if}
     <SearchBar
+      dir="auto"
       flex={$isSmallScreen}
       bind:value={rawSearchTerms}
       debounce={!isDefaultLibrary}
@@ -494,6 +495,7 @@
               : _('assets_dialog.enter_file_url')}
           </div>
           <TextInput
+            dir="ltr"
             bind:value={enteredURL}
             flex
             oninput={() => {

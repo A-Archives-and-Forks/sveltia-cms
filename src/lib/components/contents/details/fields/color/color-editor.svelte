@@ -117,6 +117,7 @@
     <span role="none" class="value">
       {#if allowInput}
         <TextInput
+          dir="ltr"
           id="{id}-input"
           bind:value={inputValue}
           {invalid}

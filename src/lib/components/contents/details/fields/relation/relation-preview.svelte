@@ -8,7 +8,7 @@
   import { getEntriesByCollection } from '$lib/services/contents/collection/entries';
   import { getCollectionFileEntry } from '$lib/services/contents/collection/files';
   import { getOptions } from '$lib/services/contents/fields/relation/helper';
-  import { getCanonicalLocale, getListFormatter } from '$lib/services/contents/i18n';
+  import { getCanonicalLocale, getDirection, getListFormatter } from '$lib/services/contents/i18n';
 
   /**
    * @import { FieldPreviewProps } from '$lib/types/private';
@@ -64,5 +64,7 @@
 </script>
 
 {#if refValues.length}
-  <p lang={getCanonicalLocale(locale)} dir="auto">{listFormatter.format(refValues)}</p>
+  <p lang={getCanonicalLocale(locale)} dir={getDirection(locale)}>
+    {listFormatter.format(refValues)}
+  </p>
 {/if}

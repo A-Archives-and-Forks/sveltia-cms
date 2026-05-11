@@ -5,7 +5,7 @@
   @see https://sveltiacms.app/en/docs/fields/number
 -->
 <script>
-  import { getCanonicalLocale } from '$lib/services/contents/i18n';
+  import { getCanonicalLocale, getDirection } from '$lib/services/contents/i18n';
 
   /**
    * @import { FieldPreviewProps } from '$lib/types/private';
@@ -31,7 +31,7 @@
 </script>
 
 {#if currentValue !== undefined && currentValue !== null && currentValue !== ''}
-  <p lang={canonicalLocale} dir="auto">
+  <p lang={canonicalLocale} dir={getDirection(locale)}>
     {numberFormatter.format(Number(currentValue))}
   </p>
 {/if}

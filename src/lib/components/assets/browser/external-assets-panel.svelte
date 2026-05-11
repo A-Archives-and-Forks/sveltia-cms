@@ -349,6 +349,7 @@
     {#if authType === 'api_key'}
       <div role="none" class="input-outer">
         <TextInput
+          dir="ltr"
           flex
           monospace
           spellcheck="false"
@@ -372,6 +373,7 @@
     {#if authType === 'password'}
       <div role="none" class="input-outer">
         <TextInput
+          dir="ltr"
           flex
           spellcheck="false"
           aria-label={_('user_name')}

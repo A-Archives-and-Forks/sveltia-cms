@@ -8,7 +8,7 @@
   import { isURL } from '@sveltia/utils/string';
 
   import YouTubeEmbed from '$lib/components/contents/details/fields/string/youtube-embed.svelte';
-  import { getCanonicalLocale } from '$lib/services/contents/i18n';
+  import { getCanonicalLocale, getDirection } from '$lib/services/contents/i18n';
   import { isYouTubeVideoURL } from '$lib/services/utils/media/video/youtube';
 
   /**
@@ -37,7 +37,11 @@
 </script>
 
 {#if typeof currentValue === 'string' && currentValue.trim()}
-  <p lang={getCanonicalLocale(locale)} dir="auto" class:title={fieldName === 'title'}>
+  <p
+    lang={getCanonicalLocale(locale)}
+    dir={getDirection(locale)}
+    class:title={fieldName === 'title'}
+  >
     {#if type === 'url' || isURL(currentValue)}
       {#if isYouTubeVideoURL(currentValue)}
         <YouTubeEmbed url={currentValue} />

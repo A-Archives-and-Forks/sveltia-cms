@@ -10,6 +10,7 @@
   import { getContext, onMount, untrack } from 'svelte';
 
   import { entryDraft } from '$lib/services/contents/draft';
+  import { getDirection } from '$lib/services/contents/i18n';
 
   /**
    * @import { EntryDraft, FieldEditorContext, FieldEditorProps } from '$lib/types/private';
@@ -104,6 +105,7 @@
 </script>
 
 <TextArea
+  dir={getDirection(locale)}
   bind:value={inputValue}
   autoResize={true}
   flex

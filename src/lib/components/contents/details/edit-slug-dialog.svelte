@@ -77,6 +77,7 @@
         {/if}
         <div role="none">
           <TextInput
+            dir="auto"
             flex
             bind:value={updatedSlugs[locale]}
             oninput={() => {
