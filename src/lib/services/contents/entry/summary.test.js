@@ -169,6 +169,31 @@ describe('Test getEntrySummary()', () => {
     expect(format(charRefStr, { allowMarkdown: false })).toEqual('«ABC\u00adDEF\u00a0GH»');
   });
 
+  test('sanitizes entity-encoded HTML in Markdown summary templates', () => {
+    const maliciousEntry = {
+      ...entry,
+      locales: {
+        de: {
+          ...entry.locales.de,
+          content: {
+            ...entry.locales.de.content,
+            title:
+              '&lt;strong onmouseover=&quot;alert(1)&quot;&gt;Safe&lt;/strong&gt;' +
+              '&lt;img src=x onerror=&quot;alert(2)&quot;&gt;',
+          },
+        },
+      },
+    };
+
+    const result = getEntrySummary({ ...collection, summary: '{{title}}' }, maliciousEntry, {
+      locale: 'de',
+      useTemplate: true,
+      allowMarkdown: true,
+    });
+
+    expect(result).toBe('<strong>Safe</strong>');
+  });
+
   test('handles non-entry collection type (line 206)', () => {
     // File/singleton collection without _file, identifier_field, or summary
     // The ternary should return empty object and function falls back to title/slug
@@ -321,6 +346,20 @@ describe('Test sanitizeEntrySummary()', () => {
     const result = sanitizeEntrySummary(input);
 
     expect(result).toBe('«Test» & <example>');
+  });
+
+  test('should strip entity-encoded dangerous HTML tags from Markdown summaries', () => {
+    const input = '&lt;img src=x onerror=&quot;alert(1)&quot;&gt;Safe';
+    const result = sanitizeEntrySummary(input, { allowMarkdown: true });
+
+    expect(result).toBe('Safe');
+  });
+
+  test('should strip entity-encoded event handlers from allowed Markdown tags', () => {
+    const input = '&lt;strong onmouseover=&quot;alert(1)&quot;&gt;Safe&lt;/strong&gt;';
+    const result = sanitizeEntrySummary(input, { allowMarkdown: true });
+
+    expect(result).toBe('<strong>Safe</strong>');
   });
 
   test('should trim whitespace', () => {

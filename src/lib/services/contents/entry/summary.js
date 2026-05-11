@@ -54,8 +54,16 @@ import { getField, getFieldDisplayValue } from '$lib/services/contents/entry/fie
  */
 export const sanitizeEntrySummary = (str, { allowMarkdown = false } = {}) => {
   str = /** @type {string} */ (parseInline(str));
+
+  if (allowMarkdown) {
+    str = parseEntities(str);
+  }
+
   str = sanitize(str, { ALLOWED_TAGS: allowMarkdown ? ['strong', 'em', 'code'] : [] });
-  str = parseEntities(str);
+
+  if (!allowMarkdown) {
+    str = parseEntities(str);
+  }
 
   return str.trim();
 };
