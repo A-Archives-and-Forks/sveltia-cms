@@ -1,7 +1,7 @@
 import { DecoratorNode, getNearestEditorFromDOMNode } from 'lexical';
 import { flushSync, mount, tick, unmount } from 'svelte';
 
-import Component from '$lib/components/contents/details/fields/rich-text/component.svelte';
+import EditorComponent from '$lib/components/contents/details/fields/rich-text/editor-component.svelte';
 import {
   isMultiLinePattern,
   normalizeProps,
@@ -27,7 +27,18 @@ import {
  * @returns {any} Custom node class.
  */
 export const createCustomNodeClass = (componentDef) => {
-  const { id: componentName, label, collapsed, fields, pattern, toBlock, toPreview } = componentDef;
+  const {
+    id: componentName,
+    label,
+    collapsed,
+    mode,
+    summary,
+    fields,
+    pattern,
+    toBlock,
+    toPreview,
+  } = componentDef;
+
   const isMultiLine = isMultiLinePattern(pattern);
   const preview = toPreview?.({});
   const block = toBlock({});
@@ -118,7 +129,7 @@ export const createCustomNodeClass = (componentDef) => {
       let wrapper;
       /** @type {LexicalEditor | null} */
       let editor = null;
-      /** @type {Component} */
+      /** @type {{ getElement: () => HTMLElement | undefined }} */
       let component;
       let destroyed = false;
 
@@ -190,12 +201,14 @@ export const createCustomNodeClass = (componentDef) => {
         );
       };
 
-      component = mount(Component, {
+      component = mount(EditorComponent, {
         target: document.createElement('div'),
         props: {
           componentName,
           label,
           collapsed,
+          mode,
+          summary,
           fields,
           values: this.__props,
           onChange,
