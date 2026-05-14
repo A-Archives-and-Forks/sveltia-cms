@@ -15,6 +15,7 @@ const mockLocale = vi.hoisted(() => ({ current: /** @type {string | null} */ (''
 
 vi.mock('@sveltia/i18n', () => ({
   locale: mockLocale,
+  // eslint-disable-next-line jsdoc/require-jsdoc
   isRTL: (/** @type {string} */ locale) =>
     ['ar', 'he', 'fa', 'ur', 'dv', 'ha', 'ps', 'yi'].includes(locale),
 }));
