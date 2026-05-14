@@ -19,7 +19,7 @@ import {
 
 const serviceId = 'google-ai';
 const serviceLabel = 'Google Gemini';
-const model = 'gemini-2.5-flash-lite';
+const model = 'gemini-3.1-flash-lite';
 
 /**
  * Check if the given source and target languages are supported.
@@ -30,7 +30,7 @@ export const availability = async ({ sourceLanguage, targetLanguage }) =>
   !!normalizeLanguage(sourceLanguage) && !!normalizeLanguage(targetLanguage);
 
 /**
- * Translate the given text with Google Gemini 2.5 Flash Lite.
+ * Translate the given text with Google Gemini 3.1 Flash-Lite.
  * Supports markdown content and preserves formatting.
  * @param {string[]} texts Array of original texts.
  * @param {TranslationOptions} options Options.
