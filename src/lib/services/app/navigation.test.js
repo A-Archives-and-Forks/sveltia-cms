@@ -199,6 +199,15 @@ describe('navigation', () => {
         params: { q: 'test', sort: 'date', tags: 'tag1,tag2' },
       });
     });
+
+    it('should join duplicate keys with commas', () => {
+      const result = parseLocation('https://example.com/#/search?foo=1&foo=2&foo=3');
+
+      expect(result).toEqual({
+        path: '/search',
+        params: { foo: '1,2,3' },
+      });
+    });
   });
 
   describe('updateContentFromHashChange', () => {
