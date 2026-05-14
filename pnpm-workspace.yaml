@@ -10,3 +10,6 @@ minimumReleaseAge: 1440
 
 minimumReleaseAgeExclude:
   - "@sveltia/*"
+  # Overrides for security updates
+  - svelte
+  - devalue
