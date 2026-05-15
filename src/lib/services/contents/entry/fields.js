@@ -222,13 +222,13 @@ export const getField = (args) => {
     isIndexFile = false,
   } = args;
 
-  // `valueMap` is only consulted during traversal when a keyPath segment is numeric or a wildcard
-  // (to resolve variable-type list/object fields). For all other paths — the vast majority of calls
-  // — it is irrelevant and we can build a much cheaper string cache key that avoids serializing the
-  // full entry content.
-  const hasIndexOrWildcard = /(?:^|\.)(\d+|\*)(?:\.|$)/.test(keyPath);
+  // `valueMap` is only consulted during traversal when a keyPath segment is a numeric index (to
+  // resolve variable-type list/object fields). Wildcard paths (e.g. `sections.*.type`) never match
+  // a real flat-entry key, so the lookup always returns `undefined` and the result is identical
+  // regardless of entry content — no need to serialize `valueMap` into the cache key.
+  const hasNumericIndex = /(?:^|\.)(\d+)(?:\.|$)/.test(keyPath);
 
-  const cacheKey = hasIndexOrWildcard
+  const cacheKey = hasNumericIndex
     ? JSON.stringify(args)
     : `${collectionName}|${fileName ?? ''}|${componentName ?? ''}|${keyPath}|${isIndexFile ? '1' : '0'}`;
 
