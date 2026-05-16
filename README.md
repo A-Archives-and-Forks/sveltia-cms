@@ -14,7 +14,7 @@ Explore various real-world examples in our [showcase](https://sveltiacms.app/en/
 
 [![300 Netlify/Decap CMS issues solved in Sveltia CMS](https://sveltiacms.app/images/highlights/decap-issues.webp?20260427)](https://sveltiacms.app/en/docs/successor-to-netlify-cms)
 
-[![See it in action. Visit Sveltia CMS Showcase](https://sveltiacms.app/images/highlights/showcase.webp?20260515)](https://sveltiacms.app/en/showcase)
+[![See it in action. Visit Sveltia CMS Showcase](https://sveltiacms.app/images/highlights/showcase.webp)](https://sveltiacms.app/en/showcase)
 
 ## Documentation
 
