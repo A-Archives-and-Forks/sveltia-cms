@@ -471,7 +471,7 @@ describe('parseBackendConfig', () => {
       expect(warning).toContain('OAuth application ID is not defined');
     });
 
-    it('should error when Gitea backend has no app_id and allow_token_auth is false', async () => {
+    it('should error when Gitea backend has no app_id and auth_methods excludes token', async () => {
       const { parseBackendConfig } = await import('./backend.js');
       const collectors = createCollectors();
 
@@ -480,7 +480,7 @@ describe('parseBackendConfig', () => {
         backend: {
           name: 'gitea',
           repo: 'owner/repo',
-          allow_token_auth: false,
+          auth_methods: ['oauth'],
         },
       };
 
@@ -492,6 +492,29 @@ describe('parseBackendConfig', () => {
       const [error] = [...collectors.errors];
 
       expect(error).toBe('OAuth app ID is required');
+    });
+
+    it('should error when auth_methods is an empty array', async () => {
+      const { parseBackendConfig } = await import('./backend.js');
+      const collectors = createCollectors();
+
+      /** @type {any} */
+      const config = {
+        backend: {
+          name: 'github',
+          repo: 'owner/repo',
+          auth_methods: [],
+        },
+      };
+
+      parseBackendConfig(config, collectors);
+
+      expect(collectors.errors.size).toBe(1);
+      expect(collectors.warnings.size).toBe(0);
+
+      const [error] = [...collectors.errors];
+
+      expect(error).toContain('auth_methods');
     });
 
     it('should accept Gitea backend with app_id', async () => {

@@ -1409,6 +1409,11 @@
  */
 
 /**
+ * Authentication method name for Git backends.
+ * @typedef {'oauth' | 'token'} AuthMethodName
+ */
+
+/**
  * Git backend properties.
  * @typedef {object} GitBackendProps
  * @property {string} [branch] Git branch name. If omitted, the default branch, usually `main` or
@@ -1429,9 +1434,10 @@
  * prefix will be added to commit messages. Default: `undefined`. See the
  * [documentation](https://sveltiacms.app/en/docs/deployments#disabling-automatic-deployments) for
  * details.
- * @property {boolean} [allow_token_auth] Whether to allow users to authenticate using an access
- * token. Default: `true`. If set to `false`, the “Sign In Using Access Token” button will be
- * disabled in the UI, and users will be forced to use OAuth authentication.
+ * @property {AuthMethodName[]} [auth_methods] Allowed authentication methods. Default: both `oauth`
+ * and `token` are allowed. To restrict sign-in options, specify only the methods you want to
+ * enable, e.g. `[oauth]` to disable access token sign-in, or `[token]` to disable OAuth sign-in. An
+ * empty array is invalid and will result in a configuration error.
  * @property {boolean} [include_credentials] Whether to include credentials in API requests.
  * Default: `false`. If set to `true`, credentials such as cookies will be included in API requests.
  * This is only necessary when using cookie-based authentication with a self-hosted Git backend.

@@ -30,7 +30,8 @@
   );
   const showLocalBackendOption = $derived($isLocalHost && !isTestRepo);
   const tokenAuthDisabled = $derived(
-    !isTestRepo && /** @type {GitBackend} */ (configuredBackend).allow_token_auth === false,
+    !isTestRepo &&
+      /** @type {GitBackend} */ (configuredBackend).auth_methods?.includes('token') === false,
   );
 
   /**
@@ -49,13 +50,22 @@
   });
 
   /**
-   * Whether the Sign In button should be disabled due to missing configuration that prevents
-   * signing in. Gitea with PKCE authentication requires an app ID. If it’s not provided, the button
-   * should be disabled. We can’t check this during config validation because token authentication
-   * doesn’t require an app ID, so we check it here instead.
+   * Whether the Sign In button should be disabled if the configuration is missing or if the
+   * administrator has explicitly disabled the authentication method.
    * @see https://github.com/sveltia/sveltia-cms/issues/721
    */
   const signInDisabled = $derived.by(() => {
+    // If OAuth authentication is explicitly disabled, the button should be disabled
+    if (
+      !isTestRepo &&
+      /** @type {GitBackend} */ (configuredBackend).auth_methods?.includes('oauth') === false
+    ) {
+      return true;
+    }
+
+    // Gitea with PKCE authentication requires an app ID. If it’s not provided, the button should be
+    // disabled. We can’t check this during config validation because token authentication doesn’t
+    // require an app ID, so we check it here instead.
     if (backendName === 'gitea' && !(/** @type {GiteaBackend} */ (configuredBackend).app_id)) {
       return true;
     }

@@ -60,12 +60,18 @@ export const parseBackendConfig = (cmsConfig, collectors) => {
     const {
       repo,
       automatic_deployments: autoDeploy,
-      allow_token_auth: allowTokenAuth = true,
+      auth_methods: authMethods,
       // @ts-ignore GitHub/GitLab only
       auth_type: authType,
       // @ts-ignore GitLab/Gitea only
       app_id: appId,
     } = /** @type {GitBackend} */ (backend);
+
+    if (Array.isArray(authMethods) && !authMethods.length) {
+      errors.add(_('config.error.no_auth_methods'));
+    }
+
+    const allowTokenAuth = !authMethods || authMethods.includes('token');
 
     if (repo === undefined) {
       errors.add(_('config.error.missing_repository'));
