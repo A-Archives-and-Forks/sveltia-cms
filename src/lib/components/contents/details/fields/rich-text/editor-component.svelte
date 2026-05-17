@@ -198,6 +198,7 @@
     );
 
     if (thisComponentValid) {
+      isNewComponent = false;
       dialogOpen = false;
       onChange(new CustomEvent('update', { detail: currentValues }));
       valuesSnapshot = undefined;
@@ -232,6 +233,7 @@
     }
 
     const flatValues = flatten(_values);
+    let anyValue = false;
 
     const result = template.replaceAll(/{{(.+?)}}/g, (__, placeholder) => {
       const [tag, ...transformations] = placeholder.trim().split(/\s*\|\s*/);
@@ -251,10 +253,16 @@
         });
       }
 
-      return String(value);
+      const str = String(value);
+
+      if (str) {
+        anyValue = true;
+      }
+
+      return str;
     });
 
-    return result.trim() || null;
+    return anyValue ? result.trim() || null : null;
   };
 
   /**
